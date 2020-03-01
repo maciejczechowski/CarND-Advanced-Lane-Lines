@@ -3,40 +3,47 @@ from src import parameters
 from src import lane_finder
 from src import camera
 import argparse
+import matplotlib.image as mpimg
 
 class ThresholdGui:
     def __init__(self, image, params):
         self.image = image
-        self._params = params
-        self._smin = params.thresh_s[0]
-        self._smax = params.thresh_s[1]
-        self._sxmin = params.thresh_sx[0]
-        self._sxmax = params.thresh_sx[1]
+        self.params = params
 
         def onSMinChanged(pos):
-            self._smin = pos
+            self.params.thresh_s = (pos, self.params.thresh_s[1])
             self._render()
 
         def onSMaxChanged(pos):
-            self._smax = pos
+            self.params.thresh_s = (self.params.thresh_s[0], pos)
             self._render()
 
         def onSxMinChanged(pos):
-            self._sxmin = pos
+            self.params.thresh_sx = (pos, self.params.thresh_sx[1])
             self._render()
 
         def onSxMaxChanged(pos):
-            self._sxmax = pos
+            self.params.thresh_sx = (self.params.thresh_sx[0], pos)
             self._render()
 
+        def onHMinChanged(pos):
+            self.params.thresh_h = (pos, self.params.thresh_h[1])
+            self._render()
+
+        def onHMaxChanged(pos):
+            self.params.thresh_h = (self.params.thresh_h[0], pos)
+            self._render()
 
         cv2.namedWindow('result')
         cv2.namedWindow('warped')
+        cv2.namedWindow('params')
 
-        cv2.createTrackbar('s-min', 'result', self._smin, 255, onSMinChanged)
-        cv2.createTrackbar('s-max', 'result', self._smax, 255, onSMaxChanged)
-        cv2.createTrackbar('sx-min', 'result', self._sxmin, 255, onSxMinChanged)
-        cv2.createTrackbar('sx-max', 'result', self._sxmax, 255, onSxMaxChanged)
+        cv2.createTrackbar('s-min', 'params', self.params.thresh_s[0], 255, onSMinChanged)
+        cv2.createTrackbar('s-max', 'params', self.params.thresh_s[1], 255, onSMaxChanged)
+        cv2.createTrackbar('sx-min', 'params', self.params.thresh_sx[0], 255, onSxMinChanged)
+        cv2.createTrackbar('sx-max', 'params', self.params.thresh_sx[1], 255, onSxMaxChanged)
+        cv2.createTrackbar('h-min', 'params', self.params.thresh_h[0], 255, onHMinChanged)
+        cv2.createTrackbar('h-max', 'params', self.params.thresh_h[1], 255, onHMaxChanged)
         self._render()
         print("Adjust the parameters as desired.  Hit any key to close.")
 
@@ -47,8 +54,12 @@ class ThresholdGui:
 
 
     def _render(self):
-        result = lane_finder.threshold(self.image, [self._smin, self._smax], [self._sxmin, self._sxmax]) * 255
-        warped  = lane_finder.toBirdsEye(result, self._params.warp_x1, self._params.warp_x2, self._params.warp_horizon)
+
+        result = lane_finder.threshold(self.image,
+                                       self.params.thresh_s,
+                                       self.params.thresh_sx,
+                                       self.params.thresh_h) * 255
+        warped = lane_finder.toBirdsEye(result, self.params.warp_x1, self.params.warp_x2, self.params.warp_horizon)
         cv2.imshow('result', result)
         cv2.imshow('warped', warped)
 
@@ -57,7 +68,7 @@ parser = argparse.ArgumentParser(description='Visualizes the threshold process.'
 parser.add_argument('filename')
 
 args = parser.parse_args()
-image = cv2.imread(args.filename)
+image = mpimg.imread(args.filename)
 
 params = parameters.LaneFinderParams()
 thresh = ThresholdGui(image, params)

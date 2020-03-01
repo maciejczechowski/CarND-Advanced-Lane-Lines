@@ -13,11 +13,13 @@ class LaneFinderParams:
     warp_horizon = 452  # 460 # horizion position (y position of upper points that will be transformed
 #around ~21m in roi
 
-    thresh_s = (200, 254)  # (92, 254)  # threshold for S channel
-    thresh_sx = (20, 244)  # (20, 244)  # threshold for L channel derivative
+    thresh_s = (130, 254)  # (92, 254)  # threshold for S channel
+    thresh_h = (20, 30)  #  threshold for H channel
+  #  thresh_sx = (20, 244)  # (20, 244)  # threshold for L channel derivative
+    thresh_sx = (212, 255)  # (20, 244)  # threshold for L channel derivative
 
     lane_nwindows = 10  # number of windows to use in lane-finding
-    lane_margin = 150  # margin around window center
+    lane_margin = 100  # margin around window center
     lane_minpix = 50  # number of pixels needed to recenter window
 
 

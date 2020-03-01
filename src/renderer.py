@@ -45,3 +45,11 @@ def weighted_img(img, initial_img, α=0.8, β=1., γ=0.):
     NOTE: initial_img and img must be the same shape!
     """
     return cv2.addWeighted(initial_img, α, img, β, γ)
+
+
+def addText(img, text):
+    y0, dy = 50, 40
+
+    for i, line in enumerate(text):
+        y = y0 + i * dy
+        cv2.putText(img, line, (10, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255))

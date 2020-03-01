@@ -11,7 +11,7 @@ from moviepy.editor import VideoFileClip
 
 def process_frame(image):
     process.frame += 1
-    res = pipeline.process_image(image, params)
+    res, lanes = pipeline.process_image(image, params)
     return res
 
 
@@ -26,16 +26,17 @@ params = parameters.LaneFinderParams()
 process = parameters.LaneFinderProcess()
 
 
-## To speed up the testing process you may want to try your pipeline on a shorter subclip of the video
-## To do so add .subclip(start_second,end_second) to the end of the line below
-## Where start_second and end_second are integer values representing the start and end of the subclip
-## You may also uncomment the following line for a subclip of the first 5 seconds
-##clip2 = VideoFileClip('test_videos/solidYellowLeft.mp4').subclip(0,5)
 
 movie = "./project_video.mp4"
-clip2 = VideoFileClip(movie)
+movie = "./challenge_video.mp4"
+clip2 = VideoFileClip(movie)#.subclip(39,42)
 result_clip = clip2.fl_image(process_frame)
 result_clip.write_videofile("result.mp4", audio=False, logger="bar")
+
+
+# image = cv2.imread("test-fr/p3.jpg")
+# final = pipeline.process_image(image, params)
+#
 
 
 
