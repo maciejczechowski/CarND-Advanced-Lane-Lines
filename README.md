@@ -50,16 +50,16 @@ Original image:
 ![](test_images/test4.jpg)
  
 Processed image:
-![](output_images/calkibratedtest4.jpg)
+![](output_images/calibratedtest4.jpg)
 
 
 #### 2. Thresholding 
 The second step of the pipeline thresholds the image to obtain clear black and white picture containing lanes. 
 I was experimenting with different coefficients for thresholding, mainly:
-# Using L channel from HSL
-# Using S channel from HSL
-# Using yellow mask based on HSV image
-# Using Sobel transforms
+* Using L channel from HSL
+* Using S channel from HSL
+* Using yellow mask based on HSV image
+* Using Sobel transforms
 
 I created a tool, present in `threshold_gui.py` file that allows to visualize effect of different parameters.  
 ![threshold gui example](output_images/threshold_gui.png)
