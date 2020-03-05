@@ -14,14 +14,12 @@ def check_current_lanes(left_fit_cr,
     if left_fit_cr is None or right_fit_cr is None:
         return False
 
-    # b coefficient should not differ by more than 0.7
+    # b coefficient should not differ by more than 0.5
     if np.abs(left_fit_cr[1] - right_fit_cr[1]) > 0.5:
         return False
 
-    # lane size should be around ~4.7
-#    if lane_size_calculated < 3.5 or lane_size_calculated > 4.2:
+    # lane size should be around ~3.7 so ignore too wide ones
     if lane_size_calculated > 4.2:
-
         return False
 
     # lanes should be mostly parallel (lane width should not differ by more than ~1m)
@@ -29,31 +27,3 @@ def check_current_lanes(left_fit_cr,
         return False
 
     return True
-
-
-def check_with_previous(current_left_fit_cr,
-                        current_right_fit_cr,
-                        previous_left_fit_cr,
-                        previous_right_fit_cr):
-
-    if current_left_fit_cr is None or current_right_fit_cr is None or previous_left_fit_cr is None or previous_right_fit_cr is None:
-        return False, False
-
-    left_sane = True
-    right_sane = True
-
-    # b coefficient should not change more than 0.5
-    if np.abs(current_left_fit_cr[1] - previous_left_fit_cr[1] > 0.5):
-        left_sane = False
-
-    if np.abs(current_right_fit_cr[1] - previous_right_fit_cr[1] > 0.5):
-        right_sane = False
-
-    # c coefficent should not change more than 20
-    if np.abs(current_left_fit_cr[2] - previous_left_fit_cr[2] > 20):
-        left_sane = False
-
-    if np.abs(current_right_fit_cr[2] - previous_right_fit_cr[2] > 20):
-        right_sane = False
-
-    return left_sane, right_sane

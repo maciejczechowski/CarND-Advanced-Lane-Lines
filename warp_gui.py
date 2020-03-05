@@ -5,11 +5,10 @@ from src import parameters
 import argparse
 
 class WarpFinder:
-    def __init__(self, image, horizon = 400, x1 = 500, x2 = 100):
+    def __init__(self, image, horizon = 400, x1 = 500):
         self.image1 = image
         self._horizon = horizon
         self._x1 = x1
-        self._x2 = x2
 
 
         def onChangeHorizon(pos):
@@ -20,15 +19,10 @@ class WarpFinder:
             self._x1 = pos
             self._render()
 
-        def onChangeX2(pos):
-            self._x2 = pos
-            self._render()
-
         cv2.namedWindow('result')
 
         cv2.createTrackbar('horizon', 'result', self._horizon, 720, onChangeHorizon)
         cv2.createTrackbar('x1', 'result', self._x1, 640, onChangeX1)
-        cv2.createTrackbar('x2', 'result', self._x2, 640, onChangeX2)
 
         self._render()
 
@@ -64,7 +58,7 @@ class WarpFinder:
 
 
     def _render(self):
-        warped1 = lf.toBirdsEye(self.image1, self._x1, self._x2, self._horizon)
+        warped1 = lf.toBirdsEye(self.image1, self._x1, self._horizon)
 
         self.draw_grid(warped1, 1280, 720)
         self._result = warped1
@@ -80,4 +74,4 @@ args = parser.parse_args()
 image = cv2.imread(args.filename)
 
 params = parameters.LaneFinderParams()
-thresh = WarpFinder(image, params.warp_horizon, params.warp_x1, params.warp_x2)
+thresh = WarpFinder(image, params.warp_horizon, params.warp_x1)

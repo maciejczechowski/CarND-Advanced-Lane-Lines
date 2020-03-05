@@ -1,7 +1,6 @@
 import numpy as np
 
 def radius_of_curvature(pixels_x, pixels_y, mx, my):
-
     if pixels_y is None or pixels_x is None:
         return 0
 
@@ -24,7 +23,6 @@ def measure_curvature_real(left_fit, right_fit, ploty, xm, ym):
 
 
 def calulate_position(left_fit, right_fit, xm):
-
     if left_fit is None or right_fit is None:
         return 0
     left_pos = left_fit[-1]
@@ -37,7 +35,6 @@ def calulate_position(left_fit, right_fit, xm):
 
 
 def calulate_lane_size(left_fit, right_fit, xm):
-
     if left_fit is None or right_fit is None:
         return 0, 0, 0, 0
 
@@ -47,8 +44,4 @@ def calulate_lane_size(left_fit, right_fit, xm):
     lane_width_min = np.min(lane_width_m)
     lane_width_max = np.max(lane_width_m)
 
-    lane_diff = lane_width_m - lane_width
-    residual = np.std(np.abs(lane_width_m - lane_width))
-
-    diff = lane_width_max - lane_width_min
-    return lane_width, lane_width_min, lane_width_max, residual
+    return lane_width, lane_width_min, lane_width_max

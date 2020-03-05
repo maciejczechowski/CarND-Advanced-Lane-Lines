@@ -26,15 +26,6 @@ def draw_lanes(image,
     out_img = weighted_img(lane_img, image, 1, 1)
     return out_img
 
-"""
-    pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
-    pts_left_posed =  camera.warp(pts_left, dst, src)
-    pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
-    pts_right_posed = camera.warp(pts_right, dst, src)
-    pts = np.hstack((pts_left_posed, pts_right_posed))
-
-    cv2.fillPoly(out_img, np.int32([pts]), color=lane_color)
-"""
 
 
 

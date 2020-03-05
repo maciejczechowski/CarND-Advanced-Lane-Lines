@@ -10,7 +10,7 @@ def calibrate_images(images, nx, ny):
     objp = np.zeros((6 * 9, 3), np.float32)
     objp[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)
 
-    size = (0,0)
+    size = (0, 0)
     for imageFile in images:
         image = cv2.imread(imageFile)
 
@@ -25,7 +25,6 @@ def calibrate_images(images, nx, ny):
     return  ret, mtx, dist, rvecs, tvecs
 
 def undistort(image, mtx, dist):
-
     dst = cv2.undistort(image, mtx, dist, None, mtx)
     return dst
 
@@ -40,13 +39,3 @@ def warp(image, src, dst):
 
 
 
-# calibration_image_files = glob.glob("camera_cal/calibration*.jpg")
-# ret, mtx, dist, rvecs, tvecs = calibrate_images(calibration_image_files, 9, 6)
-#
-# image = cv2.imread("camera_cal/calibration2.jpg")
-# x = image.shape
-# dst = undistort(image, mtx, dist)
-#
-# plt.figure()
-# plt.imshow(dst)
-# plt.show()

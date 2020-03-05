@@ -60,7 +60,7 @@ class ThresholdGui:
                                        self.params.thresh_sx,
                                        self.params.thresh_h) * 255
 
-        warped = lane_finder.toBirdsEye(result, self.params.warp_x1, self.params.warp_x2, self.params.warp_horizon)
+        warped = lane_finder.toBirdsEye(result, self.params.warp_x1, self.params.warp_horizon)
 
         res2 = np.dstack((result, result, result))
         r2 = renderer.weighted_img(res2, self.image)

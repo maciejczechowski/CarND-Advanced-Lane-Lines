@@ -5,6 +5,7 @@ import numpy
 from src import pipeline
 from src import camera
 from src import parameters
+import argparse
 
 from moviepy.editor import VideoFileClip
 
@@ -15,51 +16,21 @@ def process_frame(image):
     return res
 
 
-
-#calibration_image_files = glob.glob("camera_cal/calibration*.jpg")
-#ret, mtx, dist, rvecs, tvecs = camera.calibrate_images(calibration_image_files, 9, 6)
-
-
-
 params = parameters.LaneFinderParams()
 process = parameters.LaneFinderProcess()
-#parameters.camera_mtx = mtx
-#parameters.camera_dist = dist
-
-
-# testFiles = os.listdir("test_images")
-# for testFile in testFiles:
-#     image = cv2.imread("test_images/" + testFile)
-#     final = camera.undistort(image, params.camera_mtx, params.camera_dist)
-#
-#     cv2.imwrite("output_test/lanes_" + testFile, final)
 
 
 
 process = parameters.LaneFinderProcess()
 
+parser = argparse.ArgumentParser(description='Visualizes the threshold process.')
+parser.add_argument('filename')
+parser.add_argument('output')
 
-
-#movie = "./project_video.mp4"
-movie = "./challenge_video.mp4"
-movie = "./harder_challenge_video.mp4"
+args = parser.parse_args()
+movie = args.filename
 
 clip2 = VideoFileClip(movie)#.subclip(23,27) #.subclip(39,42)
 result_clip = clip2.fl_image(process_frame)
-result_clip.write_videofile("result.mp4", audio=False, logger="bar")
-
-
-# image = cv2.imread("test-fr/p3.jpg")
-# final = pipeline.process_image(image, params)
-#
-
-
-
-#
-# testFiles = os.listdir("test_images")
-# for testFile in testFiles:
-#     image = cv2.imread("test_images/" + testFile)
-#     final = pipeline.process_image(image, params)
-#
-#     cv2.imwrite("output_test/lanes_" + testFile, final)
+result_clip.write_videofile(args.output, audio=False, logger="bar")
 
