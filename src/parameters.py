@@ -20,10 +20,10 @@ class LaneFinderParams:
     # 460 # horizion position (y position of upper points that will be transformed
     # around ~21m in roi
 
-    thresh_s = (170, 255)  # (92, 254)  # threshold for S channel
+    thresh_s = (255, 254)  # (92, 254)  # threshold for S channel
     thresh_h = (15, 30)  # threshold for H channel
     #  thresh_sx = (20, 244)  # (20, 244)  # threshold for L channel derivative
-    thresh_sx = (212, 255)  # (20, 244)  # threshold for L channel derivative
+    thresh_sx = (47, 255)  # (20, 244)  # threshold for L channel derivative
 
     lane_nwindows = 7  # number of windows to use in lane-finding
     lane_margin = 150  # margin around window center

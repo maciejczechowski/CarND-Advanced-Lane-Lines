@@ -117,7 +117,7 @@ def window_trace(binary_img,
                  window_height,
                  margin,
                  minpix,
-                 maxempty=4):
+                 maxempty=2):
 
     out_img = ref_img
 
@@ -144,6 +144,36 @@ def window_trace(binary_img,
             empty_windows += 1
         else:
             num_found += 1
+
+            extend_right = True
+            current_left = win_x_high
+            current_right = win_x_high + 10
+            while extend_right:
+                add_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & (nonzerox >= current_left) & (
+                nonzerox < current_right)).nonzero()[0]
+                if len(add_inds) > minpix:
+                    good_inds = np.append(good_inds, add_inds)
+                    current_left = current_right
+                    current_right = current_left + 10
+                else:
+                    win_x_high = current_right
+                    extend_right = False
+
+            extend_left = True
+            current_left = win_x_low - 10
+            current_right = win_x_low
+            while extend_left:
+                add_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & (nonzerox >= current_left) & (
+                        nonzerox < current_right)).nonzero()[0]
+                if len(add_inds) > minpix:
+                    good_inds = np.append(good_inds, add_inds)
+                    current_right = current_left
+                    current_left = current_right - 10
+                else:
+                    win_x_low = current_left
+                    extend_left = False
+
+
             lane_inds.append(good_inds)
 
             lx = nonzerox[good_inds]
@@ -175,6 +205,8 @@ def window_trace(binary_img,
     laney = nonzeroy[lane_inds]
 
     return lanex, laney, num_found, out_img
+
+
 
 
 # finds a lanes based on histogram and moving windows
