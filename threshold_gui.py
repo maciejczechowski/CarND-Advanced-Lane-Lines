@@ -55,17 +55,18 @@ class ThresholdGui:
 
 
     def _render(self):
-        warped = lane_finder.toBirdsEye(self.image, self.params.warp_x1, self.params.warp_x2, self.params.warp_horizon)
-        result = lane_finder.threshold(warped,
+        result = lane_finder.threshold(self.image,
                                        self.params.thresh_s,
                                        self.params.thresh_sx,
                                        self.params.thresh_h) * 255
 
+        warped = lane_finder.toBirdsEye(result, self.params.warp_x1, self.params.warp_x2, self.params.warp_horizon)
+
         res2 = np.dstack((result, result, result))
-        r2 = renderer.weighted_img(res2, warped)
+        r2 = renderer.weighted_img(res2, self.image)
         r2 = cv2.cvtColor(r2, cv2.COLOR_RGB2BGR)
         cv2.imshow('result', r2)
-        #cv2.imshow('warped', warped)
+        cv2.imshow('warped', warped)
 
 
 parser = argparse.ArgumentParser(description='Visualizes the threshold process.')

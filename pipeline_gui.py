@@ -43,7 +43,7 @@ class WarpFinder:
 
 
     def _render(self):
-        result, lanes = pipeline.process_image(self.image1,  self._params)
+        result, lanes = pipeline.process_image(self.image1,  self._params, parameters.LaneFinderProcess())
         result = cv2.cvtColor(result, cv2.COLOR_RGB2BGR)
         lanes = cv2.cvtColor(lanes, cv2.COLOR_RGB2BGR)
         cv2.imshow('result', result)

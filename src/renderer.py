@@ -8,20 +8,22 @@ def draw_lanes(image,
                left_fitx,
                right_fitx,
                ploty,
-               lane_color=(100, 200, 100),
+               lane_color=(12, 36, 8),
                thickness=15
                ):
-    out_img = np.copy(image)
+    lane_img = np.zeros_like(image)
     pts_left = np.column_stack([left_fitx, ploty])
     pts_right = np.column_stack([right_fitx, ploty])
-    cv2.polylines(out_img, np.int32([pts_left, pts_right]), False, color=lane_color, thickness=thickness)
+
 
     pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
     pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
     pts = np.hstack((pts_left, pts_right))
 
-    cv2.fillPoly(out_img, np.int32([pts]), color=lane_color)
+    cv2.fillPoly(lane_img, np.int32([pts]), color=lane_color)
+   #cv2.polylines(lane_img, np.int32([pts_left, pts_right]), False, color=(255, 255, 0), thickness=thickness)
 
+    out_img = weighted_img(lane_img, image, 1, 1)
     return out_img
 
 """
